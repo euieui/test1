@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+        // concat, filter, map, slice, spread(전개) 연산자
+
+        console.log("1. ============= 스프레드 연산자");
+        const a = [1,2,3];
+        // const b = a; // 얕은 복사
+        const b = [...a]; // a를 spread를 통해 흩뿌리다 깊은복사
+        b.push(4); // b의 데이터 변경 push 란 배열에 값을 추가
+        console.log(`a의 값은 : ${a}`);
+        console.log(`b의 값은 : ${b}`);
+        // 깊은복사 b는 1234 a는 123로 나와야한다
+        // 얕은복사 b a 둘다 1234
+
+        console.log("2. ============= 추가하기");
+        const a2 = [1,2,3];
+        const b2 = a2.concat(4);
+        // const b2 = a2.push(4); 
+        // a2 = 1,2,3,4
+        // b2 = 4   
+        // push 하면 이리값이 신기하게나오네
+        console.log(`a2의 값은 : ${a2}`); // 1,2,3
+        console.log(`b2의 값은 : ${b2}`); // 1,2,3,4
+        const c2 = [0,...a2,4]; // concat이랑 같은건가?
+        console.log(`c2의 값은 : ${c2}`);
+        // 즉 concat은 깊은복사하면서 추가하기?
+
+        console.log("3. ============= 걸러내기"); // 삭제하기
+        const a3 = [1,2,3];
+        const b3 = a3.filter((n)=>{return n!=1;}); // n이 1이들어가서 무슨짓을 하고 그다음 2를 넣고 뭔 짓을 하고 그다음 3
+                                        // filter 는 boolean을 리턴받는다(함수 안쪽에만 리턴받는거 생각)
+                                        // true만 걸러낸다.
+        console.log(`b3의 값은 : ${b3}`); // 2,3
+        console.log(b3); // 이것도 배열로나오네 [2,3]
+
+        console.log("4. ============= 잘라내기");
+        const a4 = [1,2,3];
+        const b4 = a4.slice(0,2);
+        console.log(b4); // [1, 2]
+        // const c4 = [a4.slice(0,2)];
+        // console.log(c4); // 배열안에 배열 같은데 [[1, 2]]
+        // 배열안에 배열이니까 흩뿌려야해
+        const c4 = [...a.slice(0,2),4,...a4.slice(2,3)];
+        console.log(c4); // [1,2,4,3];
+
+        console.log("5. ============= 반복하기");
+        const a5 = [1,2,3];
+        /* for(let i = 0 ; i<a5.length; i++){
+            console.log(a5[i]);  JSX에서는 사용x        } */ 
+        // a5.forEach((n)=>{console.log(n)}); // java 라면 int n 이라했음
+                                              // 여기서 중괄호를 지우면 자동 return 문이된다 
+                                              // 그러나 foreach는 리턴을 못한다 이것도 못씀                                              
+        const b5 = a5.map((n)=>n+10); // const b5= [...a5]
+                                      // map은 값하나하나를 가공할 수 있다.
+        console.log(b5); //[1,2,3] 
+
+        console.log("6. ============= 수정하기");
+        const a6 = {id:1, name:"홍길동"};
+        const b6 = {...a6, name:"임꺽정"};
+        // const b6 ={...a6, name:"홍길동", name:"임꺽정"}; 이거랑 같음! 편하네
+        // const b6 ={id:a6.id, name:"홍길동", name:"임꺽정"}; 이거랑 같음! 편하네
+        console.log(b6);
+        
+        const data = {phone:"2222"};
+        const a7 =  {id:1, name:"홍길동", phone:"1111", age:"17", gender:"남"};
+        const b7 = {...a7, ...data};
+        console.log(b7); // phone만 변경!
+
+        const users = [
+          {id:1, name:"구태모", phone:"2222"},
+          {id:2, name:"이대엽", phone:"3333"},
+          {id:3, name:"오승훈", phone:"4444"}
+        ];
+
+        const updateUserDto = {id:2, name:"홍길동"};
+        /* users[1].name = updateUserDto.name;
+        console.log(users); 이렇게 변경하면 안돼 기존데이터 변경됨*/
+        
+        const newUsers = users.map(u=>u); // const newUsers = [...users];
+        console.log("newUsers", newUsers);
+        const newUsers2 = users.map(u => u.id === updateUserDto.id ? {...u, ...updateUserDto}:u); 
+        console.log("newUsers2", newUsers2);
+    </script>
+  </body>
+</html>
